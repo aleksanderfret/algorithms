@@ -1,5 +1,5 @@
 export const olderThan24 = (date: number | Date) => {
-  const then = typeof date === "number" ? date : date.getTime();
+  const then = typeof date === 'number' ? date : date.getTime();
   const now = new Date().getTime();
 
   const diff = Math.abs(now - then) / (60 * 60 * 1000);
@@ -27,7 +27,7 @@ type TimeUnits = {
 
 type TimeValues = Pick<
   TimeUnits,
-  "year" | "month" | "day" | "hour" | "minute" | "second"
+  'year' | 'month' | 'day' | 'hour' | 'minute' | 'second'
 >;
 
 const timeUnits: TimeValues = {
@@ -39,21 +39,21 @@ const timeUnits: TimeValues = {
   second: 1000,
 };
 
-const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
 
 export const getRelativeTime = (
   date1: Date | number,
   date2: Date | number = new Date()
 ) => {
-  const d1 = typeof date1 === "number" ? date1 : date1.getTime();
-  const d2 = typeof date2 === "number" ? date2 : date2.getTime();
+  const d1 = typeof date1 === 'number' ? date1 : date1.getTime();
+  const d2 = typeof date2 === 'number' ? date2 : date2.getTime();
 
   const diff = d1 - d2;
 
-  let relativeTime = "";
+  let relativeTime = '';
 
   entries<TimeValues>(timeUnits).every(([unit, value]) => {
-    if (Math.abs(diff) > value || unit === "second") {
+    if (Math.abs(diff) > value || unit === 'second') {
       relativeTime = rtf.format(Math.round(diff / value), unit);
 
       return false;

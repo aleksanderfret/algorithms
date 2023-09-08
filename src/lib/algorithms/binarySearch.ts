@@ -1,4 +1,4 @@
-const binarySearch = (list, item) => {
+export const binarySearch = (list: string[], item: string) => {
   let start = 0;
   let end = list.length - 1;
 
@@ -15,5 +15,6 @@ const binarySearch = (list, item) => {
       start = mid + 1;
     }
   }
-  return undefined;
+
+  return null;
 };

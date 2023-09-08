@@ -2,10 +2,54 @@
   "name": "algorithms",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "type": "module",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
   "author": "Aleksander Fret",
-  "license": "ISC"
+  "license": "ISC",
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./dist/cjs/index.js": {
+      "require": "./dist/cjs/index.js",
+      "default": "./dist/cjs/index.js"
+    },
+    "./dist/esm/index.js": {
+      "require": "./dist/esm/index.js",
+      "default": "./dist/esm/index.js"
+    },
+    "./dist/types/index.d.ts": {
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc --build tsconfig.prod.json",
+    "build:cjs": "tsc -p ./tsconfig.cjs.json",
+    "build:esm": "tsc -p ./tsconfig.esm.json",
+    "clean": " npx ts-node -T scripts/clean.ts dist",
+    "check": "npm-run-all lint format test compile",
+    "compile": "tsc -p ./tsconfig.json",
+    "format": "prettier --check \"src/**/*.{js,ts}\"",
+    "format:fix": "prettier --write \"src/**/*.{js,ts}\"",
+    "lint": "eslint . --ext \".js,.ts\"",
+    "lint:fix": "eslint ./ --ext \".js,.ts\" --max-warnings=0 --fix"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.9",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
+    "eslint": "8.48.0",
+    "eslint-config-prettier": "9.0.0",
+    "eslint-import-resolver-alias": "1.1.2",
+    "eslint-import-resolver-typescript": "^3.6.0",
+    "eslint-plugin-import": "2.28.1",
+    "eslint-plugin-prettier": "5.0.0",
+    "prettier": "3.0.3",
+    "ts-node": "10.9.1",
+    "typescript": "^5.2.2"
+  }
 }
