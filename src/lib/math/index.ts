@@ -1,3 +1,9 @@
+export { calculateMedian } from './calculateMedian.js';
+export { calculateQuartiles } from './calculateQuartiles.js';
+export { getClosestRoundNumber } from './getClosestRoundNumber.js';
+export { filterOutliers } from './filterOutliers.js';
+export { getRangeSize } from './getRangeSize.js';
+export { getRangeLimits } from './getRangeLimits.js';
 export { round } from './round.js';
 export { pointInPolygon } from './pointInPolygon.js';
 export * from './random.js';
