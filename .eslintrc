@@ -9,15 +9,30 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
+    "plugin:react/recommended",
     "plugin:import/typescript"
   ],
+  "globals": {
+    "document": false,
+    "window": false
+  },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "typescript": true,
     "ecmaVersion": 2023,
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
   },
-  "plugins": ["@typescript-eslint", "import", "prettier"],
+  "plugins": [
+    "react",
+    "react-hooks",
+    "jsx-a11y",
+    "@typescript-eslint",
+    "import",
+    "prettier"
+  ],
   "root": true,
   "rules": {
     "@typescript-eslint/naming-convention": [
@@ -110,8 +125,28 @@
     "prefer-destructuring": "error",
     "quote-props": ["error", "as-needed"],
     "quotes": ["error", "single", { "avoidEscape": true }],
+    "react/forbid-prop-types": 0,
+    "react/jsx-filename-extension": [
+      "error",
+      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+    ],
+    "react/jsx-sort-props": 2,
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 2,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/prop-types": 0,
     "semi": ["warn", "always"],
     "sort-keys": ["error", "asc", { "natural": true }],
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
+      }
+    ],
     "space-before-blocks": "error",
     "space-before-function-paren": [
       "error",
@@ -125,11 +160,9 @@
     "space-infix-ops": "error"
   },
   "settings": {
-    // "import/extensions": [
-    //   "error",
-    //   "ignorePackages",
-    //   { "js": "never", "jsx": "never", "ts": "never", "tsx": "never" }
-    // ],
+    "react": {
+      "version": "detect"
+    },
     "import/parsers": {
       "@typescript-eslint/parser": [".ts", ".js"]
     },
