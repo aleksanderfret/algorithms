@@ -1,4 +1,4 @@
-const fizzBuzz = num => {
+export const fizzBuzz0 = num => {
   for (let i = 1; i <= num; i++) {
     if (i % 15 === 0) {
       console.log('FizzBuzz');
@@ -12,7 +12,7 @@ const fizzBuzz = num => {
   }
 };
 
-const fizzBuzzM = num => {
+export const fizzBuzz1 = num => {
   for (let i = 1; i <= num; i++) {
     let res = '';
     if (i % 3 === 0) {
@@ -28,22 +28,7 @@ const fizzBuzzM = num => {
   }
 };
 
-const fb = num => {
-  const tab = Array(num);
-  for (let i = 2; i < num; i += 3) {
-    tab[i] = 'fiz';
-  }
-  for (i = 4; i < num; i += 5) {
-    tab[i] = tab[i] ? tab[i] + 'Buz' : 'Buz';
-  }
-
-  for (i = 0; i < tab.length; i++) {
-    console.log(tab[i] ? tab[i] : i + 1);
-  }
-};
-fb(22);
-
-const fizzBuzzO = num => {
+export const fizzBuzz2 = num => {
   for (let i = 1; i <= num; i++) {
     console.log(
       i % 3 === 0

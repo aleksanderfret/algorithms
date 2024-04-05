@@ -1,6 +1,6 @@
 import {
-  FilterValueCallback,
   filterObjectValues,
+  FilterValueCallback,
 } from './filterObjectValues.js';
 
 export const filterObjectValuesFactory =

@@ -1,4 +1,4 @@
-function harmlessRansomNote(noteText, magazineText) {
+function harmlessRansomNote(noteText: string, magazineText: string) {
   const noteArr = noteText.split(' ');
   const magazineArr = magazineText.split(' ');
   const magazineObj = {};
