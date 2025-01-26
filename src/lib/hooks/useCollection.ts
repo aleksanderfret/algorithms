@@ -1,62 +1,77 @@
 import { useCallback, useState } from 'react';
 
-type CollectionId = string | number;
-interface WithId {
-  id: CollectionId;
+type Item = Record<string, unknown>;
+type AddItems<I extends Item> = (items: I[]) => void;
+type Transformer<I extends Item, K extends keyof I, T = I> = (
+  item: I,
+  key?: K
+) => T;
+interface Output<I extends Item, T = I> {
+  items: T[];
+  addItems: AddItems<I>;
 }
-type Transformer<T extends WithId, K> = (item: T) => K;
-type AddItems<T extends WithId> = (items: T[]) => void;
-const getInitialItems = <T extends WithId, K>(
-  data?: Map<CollectionId, K> | Map<CollectionId, T> | T[],
-  transformItem?: Transformer<T, K> | null
-) => {
+
+const getInitialItems = <I extends Item, K extends keyof I, T = I>(
+  key: K,
+  data?: Map<I[K], T> | I[],
+  transformItem?: Transformer<I, K, T> | null
+): Map<I[K], I | T> => {
   if (!data) {
     return new Map();
   }
   if (Array.isArray(data)) {
     return new Map(
-      data.map(item => [item.id, transformItem ? transformItem(item) : item])
+      data.map(item => [
+        item[key],
+        transformItem ? transformItem(item, key) : item,
+      ])
     );
   }
 
   return data;
 };
 
-export function useCollection<T extends WithId, K>(
-  transformItem: Transformer<T, K>,
+export function useCollection<I extends Item, K extends keyof I, T = I>(
+  transformItem: Transformer<I, K, T>,
+  key: K,
   max?: number,
-  initialCollection?: Map<CollectionId, K> | T[]
-): { items: K[]; addItems: AddItems<T> };
-export function useCollection<T extends WithId>(
+  collection?: Map<I[K], T> | I[]
+): Output<I, T>;
+export function useCollection<I extends Item, K extends keyof I>(
   transformItem: null,
+  key: K,
   max?: number,
-  initialCollection?: Map<CollectionId, T> | T[]
-): { items: T[]; addItems: AddItems<T> };
-export function useCollection<T extends WithId, K>(
-  transformItem: Transformer<T, K> | null,
+  collection?: Map<I[K], I> | I[]
+): Output<I>;
+export function useCollection<I extends Item, K extends keyof I, T = I>(
+  transformItem: Transformer<I, K, T> | null,
+  key: K,
   max = 1000,
-  initialCollection?: Map<CollectionId, K> | Map<CollectionId, T> | T[]
+  collection?: Map<I[K], T> | I[]
 ) {
-  const [items, setItems] = useState<Map<CollectionId, T | K>>(() =>
-    getInitialItems(initialCollection, transformItem)
+  const [items, setItems] = useState<Map<I[K], I | T>>(() =>
+    getInitialItems(key, collection, transformItem)
   );
+
   const addItems = useCallback(
-    (items: T[]) => {
+    (items: I[]) => {
       setItems(prev => {
         items.forEach(item => {
-          if (prev.has(item.id)) {
-            prev.delete(item.id);
+          if (prev.has(item[key])) {
+            prev.delete(item[key]);
           } else if (prev.size === max) {
             const firstKey = prev.keys().next().value;
-            prev.delete(firstKey);
+            if (firstKey) {
+              prev.delete(firstKey);
+            }
           }
-          prev.set(item.id, transformItem ? transformItem(item) : item);
+          prev.set(item[key], transformItem ? transformItem(item) : item);
         });
 
         return new Map(prev);
       });
     },
-    [max, transformItem]
+    [key, max, transformItem]
   );
 
   return {

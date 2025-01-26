@@ -14,3 +14,14 @@ export function usePrevious<T>(value: T) {
 
   return ref.current.prev;
 }
+
+// enum Direction {
+//   All = 'All',
+//   A = 'A',
+//   B = 'B',
+//   C = 'C',
+//   D = 'D',
+// }
+
+// type CCC = `${Direction}`;
+// type BBB = `${Exclude<Direction, 'All'>}`;
